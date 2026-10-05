@@ -1,0 +1,253 @@
+---
+import AcademicLayout from '../layouts/AcademicLayout.astro';
+import Icon from '../components/Icon.astro';
+import { awards, community, education, experiences, profile, publications } from '../data/profile';
+import { asset } from '../lib/paths';
+
+const cvPath = asset('cv/CV_YirongQiang.pdf') + '?v=20261001-1815';
+
+const venueBadge = (venue: string) => {
+  if (venue.startsWith('ICLR')) return venue.includes('Workshop') ? 'ICLR W' : 'ICLR';
+  if (venue.startsWith('ICML')) return 'ICML';
+  if (venue.startsWith('CHI')) return 'CHI';
+  return venue;
+};
+
+const publicationGroups = [...new Set(publications.map((publication) => publication.year))]
+  .sort((firstYear, secondYear) => secondYear - firstYear)
+  .map((year) => {
+    const yearPublications = publications.filter((publication) => publication.year === year);
+    const statuses = [...new Set(yearPublications.map((publication) => publication.status))].map((status) => ({
+      status,
+      publications: yearPublications.filter((publication) => publication.status === status),
+    }));
+
+    return { year, statuses };
+  });
+
+const currentYear = new Date().getUTCFullYear();
+
+const academicInterests = [
+  'Embodied AI, World Models/VLAs',
+  'Agentic AI',
+  'Multimodal AI',
+  'Human-Computer Interaction',
+];
+
+const earlyAdmissionAndCamps = awards.filter((award) =>
+  award.title === 'Selected for Early Admission' || award.title === 'Excellent Camper',
+);
+const selectedHonors = awards.filter((award) => !earlyAdmissionAndCamps.includes(award));
+---
+
+<AcademicLayout>
+  <div class="academic-page" id="top">
+    <a class="academic-skip-link" href="#main-content">Skip to content</a>
+
+    <header class="academic-header">
+      <div class="academic-header__inner">
+        <a class="academic-brand" href="#top" aria-label={`${profile.name} — back to top`}>
+          <span class="academic-brand__name">{profile.name}</span>
+          <span class="academic-brand__role">{profile.role}</span>
+        </a>
+        <nav class="academic-nav" aria-label="Primary navigation">
+          <a href="#about">About</a>
+          <a href="#publications">Publications</a>
+          <a href="#experience">Experience</a>
+          <a href="#education">Education</a>
+          <a href="#contact">Contact</a>
+        </nav>
+        <div class="academic-header__actions">
+          <a class="academic-header__icon-link" href={`mailto:${profile.email}`} aria-label="Email">
+            <Icon name="mail" size={17} />
+          </a>
+          <a class="academic-header__icon-link" href={profile.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+            <Icon name="github" size={17} />
+          </a>
+          <a class="academic-header__cv" href={cvPath} target="_blank" rel="noopener">CV <Icon name="arrow-up" size={14} /></a>
+        </div>
+      </div>
+    </header>
+
+    <main class="academic-main" id="main-content" tabindex="-1">
+      <section class="academic-hero academic-section academic-profile" id="about" aria-labelledby="about-title">
+        <div class="academic-hero__grid">
+          <div class="academic-hero__copy academic-profile__main">
+            <p class="academic-kicker">{profile.role}</p>
+            <h1 class="academic-title" id="about-title">{profile.name}</h1>
+            <p class="academic-profile__tagline">Researcher in embodied intelligence, world models, and multimodal agents.</p>
+            <div class="academic-profile__bio">
+              <h2 class="academic-section__title">About Me</h2>
+              <p class="academic-lede">{profile.bio}</p>
+            </div>
+            <div class="academic-links" aria-label="Profile links">
+              <a class="academic-link academic-link--primary" href={`mailto:${profile.email}`}>Email <Icon name="arrow-up" size={15} /></a>
+              <a class="academic-link" href={profile.github} target="_blank" rel="noopener noreferrer">GitHub <Icon name="arrow-up" size={15} /></a>
+              <a class="academic-link" href={cvPath} target="_blank" rel="noopener">Curriculum vitae <Icon name="arrow-up" size={15} /></a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="academic-section academic-section--research" id="research" aria-labelledby="research-title">
+        <div class="academic-section__header">
+          <div>
+            <p class="academic-section__eyebrow">Research</p>
+            <h2 class="academic-section__title" id="research-title">Research interests</h2>
+          </div>
+          <p class="academic-section__intro">I study how intelligent agents perceive, reason, and act in the physical world, working across embodied intelligence, world models, and reliable multimodal agents.</p>
+        </div>
+        <ul class="interest-list interest-list--expanded">
+          {academicInterests.map((interest, index) => (
+            <li class="interest-item">
+              <span class="interest-item__index">0{index + 1}</span>
+              <span>{interest}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section class="academic-section academic-section--publications" id="publications" aria-labelledby="publications-title">
+        <div class="academic-section__header">
+          <div>
+            <p class="academic-section__eyebrow">Selected work</p>
+            <h2 class="academic-section__title" id="publications-title">Selected publications</h2>
+          </div>
+          <p class="academic-section__intro">Research in embodied AI, world models, reasoning, and human–agent interaction.</p>
+        </div>
+
+        <div class="publication-groups">
+          {publicationGroups.map((group) => (
+            <section class="publication-year" aria-labelledby={`publication-year-${group.year}`}>
+              <h3 class="publication-year__title" id={`publication-year-${group.year}`}>{group.year}</h3>
+              <div class="publication-year__content">
+                {group.statuses.map((statusGroup) => (
+                  <div class="publication-status">
+                    <h4 class="publication-status__label">{statusGroup.status}</h4>
+                    <ol class="publication-list">
+                      {statusGroup.publications.map((publication) => (
+                        <li>
+                          <article class="publication-card" id={publication.id}>
+                            <div class="publication-card__venue" aria-label={`Venue: ${publication.venue}`}>
+                              <span class="publication-card__venue-badge">{venueBadge(publication.venue)}</span>
+                            </div>
+                            <div class="publication-card__body">
+                              <h4 class="publication-card__title"><a href={publication.links[0].href} target="_blank" rel="noopener noreferrer">{publication.title}</a></h4>
+                              <p class="publication-card__authors">
+                                {publication.authors.map((author, authorIndex) => <>{authorIndex > 0 && ', '}{author.name === profile.name ? <strong>{author.name}</strong> : author.name}{author.mark && <sup>{author.mark}</sup>}</>)}
+                              </p>
+                              <p class="publication-card__periodical"><em>{publication.venue}</em>, {publication.year} · {publication.status}</p>
+                              {publication.contributionNote && <p class="publication-card__note">{publication.contributionNote}</p>}
+                              <p class="publication-card__summary">{publication.summary}</p>
+                              <a class="publication-card__figure" href={publication.links[0].href} target="_blank" rel="noopener noreferrer" aria-label={`${publication.shortTitle} preview (opens in a new tab)`}>
+                                <img src={asset(publication.image)} alt={publication.imageAlt} width={publication.imageWidth} height={publication.imageHeight} loading="lazy" decoding="async" />
+                              </a>
+                              <div class="publication-card__links" aria-label={`${publication.shortTitle} links`}>
+                                {publication.links.map((link) => <a href={link.href} target="_blank" rel="noopener noreferrer">{link.label} <Icon name="arrow-up" size={13} /></a>)}
+                              </div>
+                            </div>
+                          </article>
+                        </li>
+                      ))}
+                    </ol>
+                  </div>
+                ))}
+              </div>
+            </section>
+          ))}
+        </div>
+      </section>
+
+      <section class="academic-section academic-section--experience" id="experience" aria-labelledby="experience-title">
+        <div class="academic-section__header">
+          <div>
+            <p class="academic-section__eyebrow">Background</p>
+            <h2 class="academic-section__title" id="experience-title">Experience</h2>
+          </div>
+          <a class="academic-text-link" href={cvPath} target="_blank" rel="noopener">Full curriculum vitae <Icon name="arrow-up" size={14} /></a>
+        </div>
+        <ol class="experience-list">
+          {experiences.map((experience) => (
+            <li class="experience-item">
+              <p class="experience-item__period">{experience.period}</p>
+              <div>
+                <h3 class="experience-item__heading">{experience.role} · {experience.organization}</h3>
+                {experience.unit && <p class="experience-item__unit">{experience.unit}</p>}
+                <ul class="experience-item__bullets">
+                  <li>{experience.description}</li>
+                </ul>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section class="academic-section academic-section--credentials" id="education" aria-labelledby="education-title">
+        <div class="academic-section__header">
+          <div>
+            <p class="academic-section__eyebrow">Education & recognition</p>
+            <h2 class="academic-section__title" id="education-title">Education and honors</h2>
+          </div>
+        </div>
+        <div class="credentials-grid">
+          <div class="education-block">
+            <p class="education-block__period">{education.period}</p>
+            <h3>{education.degree}</h3>
+            <p class="education-block__institution">{education.college} · {education.institution}</p>
+            <dl class="metrics">
+              <div><dt>GPA</dt><dd>{education.gpa}</dd></div>
+              <div><dt>Class rank</dt><dd>#{education.rank}</dd></div>
+              <div><dt>Average</dt><dd>{education.average}</dd></div>
+            </dl>
+          </div>
+          <div class="awards-block">
+            <h3 class="small-section-title">Early admission &amp; summer programs</h3>
+            <ul class="awards-list">
+              {earlyAdmissionAndCamps.map((award) => (
+                <li>
+                  <span class="awards-list__year">{award.year}</span>
+                  <span><strong>{award.title}</strong><small>{award.detail}</small></span>
+                </li>
+              ))}
+            </ul>
+            <h3 class="small-section-title awards-subsection-title">Selected honors</h3>
+            <ul class="awards-list">
+              {selectedHonors.map((award) => (
+                <li>
+                  <span class="awards-list__year">{award.year}</span>
+                  <span><strong>{award.title}</strong><small>{award.detail}</small></span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+        <div class="community-block">
+          <p class="community-block__label">Community</p>
+          <div>
+            <h3>{community.title}</h3>
+            <p class="community-block__period">{community.period}</p>
+            <p>{community.description}</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="academic-contact academic-section" id="contact" aria-labelledby="contact-title">
+        <div>
+          <p class="academic-section__eyebrow">Contact</p>
+          <h2 class="academic-section__title" id="contact-title">Let’s discuss research.</h2>
+          <p class="academic-contact__copy">I am happy to exchange ideas on embodied AI, world models, and agentic reasoning.</p>
+        </div>
+        <div class="academic-contact__links">
+          <a class="academic-contact__email" href={`mailto:${profile.email}`}>{profile.email} <Icon name="arrow-up" size={18} /></a>
+          <a class="academic-text-link" href={profile.github} target="_blank" rel="noopener noreferrer">GitHub <Icon name="arrow-up" size={14} /></a>
+          <a class="academic-text-link" href={cvPath} target="_blank" rel="noopener">Download CV <Icon name="download" size={14} /></a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="academic-footer">
+      <span>© {currentYear} {profile.name}</span>
+      <a href="#top">Back to top <span aria-hidden="true">↑</span></a>
+    </footer>
+  </div>
+</AcademicLayout>

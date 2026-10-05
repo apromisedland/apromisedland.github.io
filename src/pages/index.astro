@@ -1,0 +1,138 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
+import ResearchScene from '../components/ResearchScene.astro';
+import ResearchMark from '../components/ResearchMark.astro';
+import { profile, publications, experiences, education, awards, community, project } from '../data/profile';
+import { asset } from '../lib/paths';
+
+const selectedAwards = awards.filter((award) => ['National Scholarship', 'ACM-ICPC Silver Award', 'Academic Excellence Star'].includes(award.title));
+const cvPath = asset('cv/CV_YirongQiang.pdf') + '?v=20261001-1815';
+---
+<Layout>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="site-header">
+    <div class="header-inner container">
+      <a href="#top" class="site-mark" aria-label="Home — back to top"><ResearchMark/></a>
+      <nav aria-label="Main navigation">
+        <a href="#research">Research</a>
+        <a href="#experience">Experience</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <a href={cvPath} class="header-cv" target="_blank" rel="noopener">CV <Icon name="arrow-up" size={15}/><span class="sr-only"> (PDF, opens in a new tab)</span></a>
+    </div>
+  </header>
+  <main id="main-content" tabindex="-1">
+    <section class="hero container" id="top" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="status-dot"></span> {profile.role}</p>
+        <h1 id="hero-title">Yirong Qiang<span>.</span></h1>
+        <p class="hero-statement">Intelligence that reasons.<br/><em>And acts in the world.</em></p>
+        <p class="hero-description">I explore how embodied agents can understand their surroundings, reason reliably, and turn knowledge into purposeful action.</p>
+        <div class="hero-actions">
+          <a href="#research" class="button button-primary">Explore my research <Icon name="arrow"/></a>
+          <a href={cvPath} class="text-link" target="_blank" rel="noopener">Curriculum vitae <Icon name="download" size={16}/><span class="sr-only"> (PDF, opens in a new tab)</span></a>
+        </div>
+        <div class="hero-socials"><a href={'mailto:' + profile.email}><Icon name="mail" size={17}/> Email</a><span aria-hidden="true">/</span><a href={profile.github} target="_blank" rel="noopener noreferrer"><Icon name="github" size={17}/> GitHub<span class="sr-only"> (opens in a new tab)</span></a></div>
+      </div>
+      <ResearchScene/>
+    </section>
+    <div class="research-strip container" role="group" aria-label="Research interests">
+      <span class="strip-label">RESEARCH FOCUS</span>
+      {profile.interests.map((interest) => <span>{interest}</span>)}
+      <span class="strip-mark" aria-hidden="true">↘</span>
+    </div>
+    <section class="research-section container section-space" id="research" aria-labelledby="research-title">
+      <div class="section-heading" data-reveal>
+        <div><p class="eyebrow section-label"><span>01</span> RESEARCH</p><h2 id="research-title">Selected work<span class="heading-dot">.</span></h2></div>
+        <p>From understanding the world<br/>to deciding what comes next.</p>
+      </div>
+      <div class="publication-list">
+        {publications.map((publication, index) => (
+          <article class="publication" id={publication.id} data-publication data-reveal>
+            <div class={'publication-visual visual-' + publication.id}>
+              <a href={publication.links.find((link) => link.label === 'Project')!.href} target="_blank" rel="noopener noreferrer" class="paper-image-link" aria-label={publication.shortTitle + ' project page (opens in a new tab)'}>
+                <div class="figure-label"><span>0{index + 1} / {publication.shortTitle}</span><Icon name="arrow-up" size={17}/></div>
+                <div class="figure-image"><img src={asset(publication.image)} alt={publication.imageAlt} width={publication.imageWidth} height={publication.imageHeight} loading="lazy" decoding="async"/></div>
+                <span class="figure-caption">METHOD OVERVIEW <span aria-hidden="true">↗</span></span>
+              </a>
+            </div>
+            <div class="publication-copy">
+              <div class="publication-meta"><span class="venue">{publication.venue}</span><span class:list={['paper-status', { 'under-review': publication.status === 'Under review' }]}>{publication.status}</span></div>
+              <h3><a href={publication.links[0].href} target="_blank" rel="noopener noreferrer">{publication.title}<span class="sr-only"> (PDF, opens in a new tab)</span></a></h3>
+              <p class="authors">{publication.authors.map((author, authorIndex) => <>{authorIndex > 0 && ', '}{author.name === profile.name ? <strong>{author.name}</strong> : author.name}{author.mark && <sup>{author.mark}</sup>}</>)}</p>
+              {publication.contributionNote && <p class="contribution-note">{publication.contributionNote}</p>}
+              <p class="publication-summary">{publication.summary}</p>
+              <div class="paper-links">{publication.links.map((link) => <a href={link.href} target="_blank" rel="noopener noreferrer">{link.label}<Icon name="arrow-up" size={14}/><span class="sr-only"> for {publication.shortTitle} (opens in a new tab)</span></a>)}</div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+    <section class="experience-section section-space" id="experience" aria-labelledby="experience-title">
+      <div class="container experience-grid">
+        <div class="experience-intro" data-reveal><p class="eyebrow section-label"><span>02</span> EXPERIENCE</p><h2 id="experience-title">Ideas shaped<br/>through research.</h2><p>Working across robotics, world models, and human–agent interaction.</p><a class="text-link" href={cvPath} target="_blank" rel="noopener">View full CV <Icon name="arrow-up" size={16}/><span class="sr-only"> (PDF, opens in a new tab)</span></a></div>
+        <ol class="timeline">
+          {experiences.map((experience) => <li data-reveal><div class="timeline-marker" aria-hidden="true"></div><p class="timeline-date">{experience.period}</p><h3>{experience.organization}</h3>{experience.unit && <p class="timeline-unit">{experience.unit}</p>}<p class="timeline-role">{experience.role}</p><p class="timeline-description">{experience.description}</p></li>)}
+        </ol>
+      </div>
+    </section>
+    <section class="projects-section container section-space" id="projects" aria-labelledby="projects-title">
+      <div class="section-heading" data-reveal><div><p class="eyebrow section-label"><span>03</span> IN PRACTICE</p><h2 id="projects-title">Beyond the paper<span class="heading-dot">.</span></h2></div><p>Building tools to ask<br/>better questions.</p></div>
+      <article class="project-card" data-reveal>
+        <div class="project-copy"><p class="eyebrow">OPEN-SOURCE PROJECT</p><h3>{project.title}</h3><p class="project-subtitle">{project.subtitle}</p><p>{project.description}</p><div class="project-tags">{project.tags.map((tag) => <span>{tag}</span>)}</div><p class="project-award"><span aria-hidden="true">✧</span> {project.award}</p><a class="button button-primary" href={project.href} target="_blank" rel="noopener noreferrer">Explore the project <Icon name="arrow-up" size={17}/><span class="sr-only"> (opens in a new tab)</span></a></div>
+        <figure class="project-preview"><div class="preview-topbar"><span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span><span>AGENT SIMULATION / DASHBOARD</span></div><a href={project.href} target="_blank" rel="noopener noreferrer" aria-label="View Trustworthy Agent Simulation on GitHub (opens in a new tab)"><img src={asset(project.image)} alt={project.imageAlt} width={project.imageWidth} height={project.imageHeight} loading="lazy" decoding="async"/></a><figcaption>A completed offline baseline simulation.</figcaption></figure>
+      </article>
+    </section>
+    <section class="about-section container section-space" id="about" aria-labelledby="about-title">
+      <div class="section-heading" data-reveal><div><p class="eyebrow section-label"><span>04</span> A LITTLE MORE</p><h2 id="about-title">Curiosity, with purpose<span class="heading-dot">.</span></h2></div></div>
+      <div class="about-grid">
+        <div class="about-main" data-reveal><p class="about-bio">{profile.bio}</p><div class="education-card"><p class="eyebrow">EDUCATION <span>{education.period}</span></p><h3>{education.institution}</h3><p>{education.college}</p><p class="degree">{education.degree}</p><dl class="education-metrics"><div><dt>GPA</dt><dd>{education.gpa}</dd></div><div><dt>RANK</dt><dd>#{education.rank}</dd></div><div><dt>WEIGHTED AVERAGE</dt><dd>{education.average}</dd></div></dl></div></div>
+        <div class="about-side" data-reveal><h3 class="small-section-title">Selected recognition</h3><ul class="awards-list">{selectedAwards.map((award) => <li><span>{award.year}</span><div><h4>{award.title}</h4><p>{award.detail}</p></div></li>)}</ul><div class="community-card"><div class="community-heading"><Icon name="plus" size={20}/><span>GROWING TOGETHER</span></div><h3>{community.title}</h3><p class="community-period">{community.period}</p><p>{community.description}</p></div></div>
+      </div>
+    </section>
+    <section class="contact-section" id="contact" aria-labelledby="contact-title">
+      <div class="container contact-inner" data-reveal><div><p class="eyebrow section-label"><span>05</span> SAY HELLO</p><h2 id="contact-title">Good research starts<br/>with a conversation.</h2><p>Interested in embodied intelligence or agentic systems?<br/>I'd be glad to exchange ideas.</p></div><a class="contact-mail" href={'mailto:' + profile.email}><span>{profile.email}</span><span class="contact-arrow"><Icon name="arrow-up" size={30}/></span></a></div>
+    </section>
+  </main>
+  <footer class="site-footer container"><a href="#top" class="site-mark" aria-label="Back to top"><ResearchMark/></a><p>© {new Date().getUTCFullYear()} {profile.name}</p><div><a href={profile.github} target="_blank" rel="noopener noreferrer">GitHub<span class="sr-only"> (opens in a new tab)</span></a><a href={cvPath} target="_blank" rel="noopener">CV<span class="sr-only"> (PDF, opens in a new tab)</span></a><a href="#top">Back to top ↑</a></div></footer>
+</Layout>
+
+<script>
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (!reducedMotion.matches && 'IntersectionObserver' in window) {
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.06 });
+    document.querySelectorAll<HTMLElement>('[data-reveal]').forEach((element) => {
+      element.classList.add('reveal-ready');
+      revealObserver.observe(element);
+    });
+    reducedMotion.addEventListener('change', () => {
+      if (reducedMotion.matches) {
+        document.querySelectorAll('.reveal-ready').forEach((element) => element.classList.add('is-visible'));
+        revealObserver.disconnect();
+      }
+    });
+  }
+  if ('IntersectionObserver' in window) {
+    const navigationLinks = document.querySelectorAll<HTMLAnchorElement>('.site-header nav a');
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        navigationLinks.forEach((link) => {
+          const isCurrent = link.hash === '#' + entry.target.id;
+          if (isCurrent) link.setAttribute('aria-current', 'location');
+          else link.removeAttribute('aria-current');
+        });
+      });
+    }, { rootMargin: '-10% 0px -60% 0px' });
+    document.querySelectorAll('main section[id]').forEach((section) => sectionObserver.observe(section));
+  }
+</script>

@@ -1,0 +1,56 @@
+---
+import Icon from './Icon.astro';
+---
+<div class="research-scene">
+  <div class="scene-topline"><span><i></i> A FIELD OF POSSIBILITIES</span><span>FIG. 01</span></div>
+  <svg class="scene-illustration" viewBox="0 0 540 410" role="img" aria-labelledby="scene-title scene-desc">
+    <title id="scene-title">From observation to intelligent action</title>
+    <desc id="scene-desc">A conceptual illustration of a robotic arm, an abstract world model, and a reasoning path connecting perception to action.</desc>
+    <defs>
+      <pattern id="scene-dots" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r=".8" fill="#bfc9d3"/></pattern>
+      <linearGradient id="plane-fill" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#e7ebee"/><stop offset="1" stop-color="#f4f5f4"/></linearGradient>
+      <linearGradient id="arm-fill" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fcfcf8"/><stop offset="1" stop-color="#cbd5df"/></linearGradient>
+      <filter id="scene-shadow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="8"/></filter>
+    </defs>
+    <rect width="540" height="410" fill="url(#scene-dots)" opacity=".45"/>
+    <ellipse cx="277" cy="328" rx="152" ry="30" fill="#92a2b3" opacity=".16" filter="url(#scene-shadow)"/>
+    <path d="m59 264 217-117 213 116-215 124Z" fill="url(#plane-fill)" stroke="#b4c0cc"/>
+    <g stroke="#ccd5dd" stroke-width=".7"><path d="m100 286 216-117M145 310l215-117M188 334l215-116M231 359l214-118M100 242l214 117M143 220l214 116M187 196l215 116M230 173l214 116"/></g>
+    <path class="scene-route" d="m114 273 81 44 98-53 86 46 62-34" fill="none" stroke="#8a9daf" stroke-width="2" stroke-dasharray="4 7"/>
+    <g class="world-cube">
+      <path d="m119 220 41-23 41 23-41 23Z" fill="#f0c98b" stroke="#b58b52"/>
+      <path d="m119 220 41 23v47l-41-24Z" fill="#d4a568" stroke="#b58b52"/>
+      <path d="m160 243 41-23v46l-41 24Z" fill="#e8bd7f" stroke="#b58b52"/>
+      <path d="m130 217 30-17 29 17M165 252v25" fill="none" stroke="#fbe9c7" stroke-width="2"/>
+    </g>
+    <g>
+      <path d="m292 304 37-21 38 21v12l-38 22-37-22Z" fill="#8197ac" stroke="#4e6880"/>
+      <ellipse cx="329" cy="300" rx="38" ry="20" fill="#d2dce5" stroke="#58738d"/>
+      <path d="M311 300v-45h36v45c-9 10-26 10-36 0" fill="url(#arm-fill)" stroke="#57728c" stroke-width="1.5"/>
+      <ellipse cx="329" cy="254" rx="18" ry="10" fill="#edf1f4" stroke="#57728c"/>
+      <path d="m317 258-45-81 24-14 47 82c8 22-18 33-26 13Z" fill="url(#arm-fill)" stroke="#57728c" stroke-width="1.5"/>
+      <path d="m282 174 55-59 18 18-54 59" fill="#d7e0e8" stroke="#57728c" stroke-width="1.5"/>
+      <circle cx="288" cy="176" r="19" fill="#e9eef2" stroke="#57728c" stroke-width="1.5"/>
+      <circle cx="288" cy="176" r="9" fill="#7893ac" stroke="#45627d"/>
+      <circle cx="346" cy="125" r="14" fill="#e9eef2" stroke="#57728c" stroke-width="1.5"/>
+      <circle cx="346" cy="125" r="5" fill="#7893ac"/>
+      <path d="m356 116 28 18-7 14-29-17" fill="url(#arm-fill)" stroke="#57728c" stroke-width="1.5"/>
+      <path d="m381 139 11 9v22m-16-28-7 9v16m0 0 9 6m14-3-9 6" fill="none" stroke="#3f5972" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+    <g class="target-cube"><path d="m367 209 17-10 17 10-17 10Z" fill="#b8cddd" stroke="#6a879f"/><path d="m367 209 17 10v21l-17-10Z" fill="#7493ae" stroke="#52718c"/><path d="m384 219 17-10v21l-17 10Z" fill="#93b0c7" stroke="#52718c"/></g>
+    <path class="scene-signal" d="M383 185v13" stroke="#52718a" stroke-width="1.5" stroke-dasharray="3 4"/>
+    <g transform="translate(54 72) rotate(-6)">
+      <rect width="120" height="83" rx="8" fill="#fcfbf7" stroke="#bbc7d2"/>
+      <path d="M13 62V34l22-12 22 12v28M35 22v29m0 0L13 63m22-12 22 12M65 63V41l20-11 21 11v23M85 30v24m0 0L65 66m20-12 21 11" fill="none" stroke="#748fa7" stroke-width="1.2"/>
+      <path d="m14 64 32-15 24 12 31-17" fill="none" stroke="#cc9a5b" stroke-width="2"/>
+      <circle cx="101" cy="44" r="3" fill="#bc8852"/>
+    </g>
+    <path d="m174 106 63 1 20 29" fill="none" stroke="#8aa0b5" stroke-dasharray="3 5"/>
+    <g fill="#45627d" font-family="monospace" font-size="9" letter-spacing="1.4"><text x="60" y="56">01 / OBSERVE</text><text x="360" y="85">03 / ACT</text><text x="50" y="349">02 / REASON</text></g>
+    <path d="m117 337 22-20v-15M391 92v25" fill="none" stroke="#97aabe"/>
+    <g transform="translate(207 50)"><circle cx="0" cy="0" r="4" fill="#45627d"/><circle class="scene-pulse" cx="0" cy="0" r="11" fill="none" stroke="#93a9bf"/><path d="M0 11v26" stroke="#b2c2d2" stroke-dasharray="2 3"/></g>
+    <g fill="#63809a"><circle cx="114" cy="273" r="3"/><circle cx="195" cy="317" r="3"/><circle cx="441" cy="276" r="3"/></g>
+  </svg>
+  <div class="scene-bottomline"><span>From perception to purposeful action.</span><span class="scene-caption">A conceptual illustration</span></div>
+  <a class="scene-link" href="#research" aria-label="Explore the research behind the illustration"><Icon name="arrow-up" size={20}/></a>
+</div>

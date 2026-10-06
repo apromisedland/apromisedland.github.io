@@ -47,6 +47,7 @@ export const publications: Publication[] = [
     links: [
       { label: 'Paper', href: 'https://apromisedland.github.io/diwa-paper-page/assets/diwa-paper.pdf' },
       { label: 'Project', href: 'https://apromisedland.github.io/diwa-paper-page/' },
+      { label: 'Code', href: 'https://github.com/apromisedland/DIWA' },
     ],
     topics: ['Embodied AI', 'World Models', 'Efficient Inference'],
   },
